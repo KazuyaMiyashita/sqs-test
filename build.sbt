@@ -1,8 +1,8 @@
 import Dependencies._
 
-ThisBuild / scalaVersion     := "2.13.3"
-ThisBuild / version          := "0.1.0-SNAPSHOT"
-ThisBuild / organization     := "com.example"
+ThisBuild / scalaVersion := "2.13.3"
+ThisBuild / version := "0.1.0-SNAPSHOT"
+ThisBuild / organization := "com.example"
 ThisBuild / organizationName := "example"
 
 lazy val commonSettings = Seq(
@@ -14,6 +14,13 @@ lazy val commonSettings = Seq(
 lazy val root = (project in file("."))
   .settings(
     name := "sqs-test",
+    libraryDependencies += scalaTest % Test
+  )
+
+lazy val mainApi = (project in file("main-api"))
+  .settings(
+    name := "main-api",
+    libraryDependencies ++= akka,
     libraryDependencies += scalaTest % Test
   )
 
