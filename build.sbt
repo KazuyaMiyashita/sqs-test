@@ -17,10 +17,20 @@ lazy val root = (project in file("."))
     libraryDependencies += scalaTest % Test
   )
 
-lazy val mainApi = (project in file("main-api"))
+lazy val api = (project in file("api"))
   .settings(
-    name := "main-api",
-    libraryDependencies ++= akka,
+    name := "api",
+    libraryDependencies += awsSdk,
+    libraryDependencies ++= circeDependencies,
+    libraryDependencies ++= akkaDependencies,
+    libraryDependencies += scalaTest % Test
+  )
+  .dependsOn(db)
+
+lazy val db = (project in file("db"))
+  .settings(
+    name := "db",
+    libraryDependencies ++= dbDependencies,
     libraryDependencies += scalaTest % Test
   )
 

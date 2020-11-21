@@ -1,16 +1,21 @@
-package mainApi
+package api
 
-import akka.actor.typed.{ActorSystem, Behavior, Terminated}
-import akka.actor.typed.scaladsl.Behaviors
-import akka.stream.Materializer
 import akka.NotUsed
+import akka.actor.typed.scaladsl.Behaviors
+import akka.actor.typed.{ActorSystem, Behavior, Terminated}
+import akka.stream.Materializer
+import api.service.RegistrationImage
+import api.web.{RouterImpl, WebServer}
+
 import scala.io.StdIn
 
 object Main extends App {
 
   def init(): Behavior[NotUsed] = {
     Behaviors.setup { context =>
-      val router = new RouterImpl
+      val mat: Materializer = Materializer.matFromSystem(context.system.classicSystem)
+      val registrationImage = new RegistrationImage()(mat)
+      val router            = new RouterImpl(registrationImage)
       context.spawn(WebServer(router), "webserver")
 
       Behaviors.receiveSignal {
