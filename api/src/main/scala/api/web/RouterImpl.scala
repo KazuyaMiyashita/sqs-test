@@ -12,7 +12,6 @@ class RouterImpl(
 
   val route: PartialFunction[(HttpMethod, Uri.Path), Flow[HttpRequest, HttpResponse, NotUsed]] = {
     case POST -> Uri.Path("/images") => registrationImage.execute
-    case POST -> Uri.Path("/print")  => registrationImage.print
     case GET -> Uri.Path("/") =>
       Flow.fromFunction(_ => HttpResponse(200, entity = HttpEntity("main-api")))
   }
